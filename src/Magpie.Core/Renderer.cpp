@@ -74,75 +74,6 @@ static void SetGpuPriority() noexcept {
 }
 
 ScalingError Renderer::Initialize(HWND hwndAttach, OverlayOptions& overlayOptions) noexcept {
-	_backendThread = std::thread(&Renderer::_BackendThreadProc, this);
-
-	if (!_frontendResources.Initialize(true)) {
-		Logger::Get().Error("初始化前端资源失败");
-		return ScalingError::ScalingFailedGeneral;
-	}
-
-	LogAdapter(_frontendResources.GetGraphicsAdapter());
-
-	// 每次创建 D3D 设备后尝试提高 GPU 优先级，OBS 也是这么做的
-	SetGpuPriority();
-
-#ifdef MP_USE_COMPSWAPCHAIN
-	_presenter = std::make_unique<CompSwapchainPresenter>();
-	if (!_presenter->Initialize(hwndAttach, _frontendResources)) {
-		Logger::Get().Error("初始化 CompSwapchainPresenter 失败");
-#else
-	_presenter = std::make_unique<AdaptivePresenter>();
-	if (!_presenter->Initialize(hwndAttach, _frontendResources)) {
-		Logger::Get().Error("初始化 AdaptivePresenter 失败");
-#endif
-		return ScalingError::ScalingFailedGeneral;
-	}
-
-	// 等待后端初始化完成
-	_sharedTextureHandle.wait(NULL, std::memory_order_relaxed);
-	const HANDLE sharedTextureHandle = _sharedTextureHandle.load(std::memory_order_acquire);
-	if (sharedTextureHandle == INVALID_HANDLE_VALUE) {
-		Logger::Get().Error("后端初始化失败");
-		// 一般的错误不会设置 _backendInitError
-		return _backendInitError == ScalingError::NoError ? ScalingError::ScalingFailedGeneral : _backendInitError;
-	}
-
-	// 获取共享纹理
-	HRESULT hr = _frontendResources.GetD3DDevice()->OpenSharedResource(
-		sharedTextureHandle, IID_PPV_ARGS(_frontendSharedTexture.put()));
-	if (FAILED(hr)) {
-		Logger::Get().ComError("OpenSharedResource 失败", hr);
-		return ScalingError::ScalingFailedGeneral;
-	}
-
-	_frontendSharedTextureMutex = _frontendSharedTexture.try_as<IDXGIKeyedMutex>();
-
-	_UpdateDestRect();
-
-	Logger::Get().Info(fmt::format("目标矩形: {},{},{},{} ({}x{})",
-		_destRect.left, _destRect.top, _destRect.right, _destRect.bottom,
-		_destRect.right - _destRect.left, _destRect.bottom - _destRect.top));
-
-	if (!_cursorDrawer.Initialize(_frontendResources)) {
-		Logger::Get().ComError("初始化 CursorDrawer 失败", hr);
-		return ScalingError::ScalingFailedGeneral;
-	}
-
-	if (!_overlayDrawer.Initialize(_frontendResources, overlayOptions)) {
-		Logger::Get().Error("初始化 OverlayDrawer 失败");
-		return ScalingError::ScalingFailedGeneral;
-	}
-
-	const ScalingOptions& options = ScalingWindow::Get().Options();
-	if (!options.Is3DGameMode()) {
-		_overlayDrawer.ToolbarState(options.IsWindowedMode() ?
-			options.windowedInitialToolbarState : options.fullscreenInitialToolbarState);
-	}
-
-	_hKeyboardHook.reset(SetWindowsHookEx(WH_KEYBOARD_LL, _LowLevelKeyboardHook, NULL, 0));
-	if (!_hKeyboardHook) {
-		Logger::Get().Win32Warn("SetWindowsHookEx 失败");
-	}
 
 	return ScalingError::NoError;
 }
@@ -156,17 +87,6 @@ void Renderer::OnCursorVisibilityChanged(bool isVisible, bool onDestory) {
 }
 
 void Renderer::MessageHandler(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
-	if (!_overlayDrawer.AnyVisibleWindow()) {
-		return;
-	}
-
-	_overlayDrawer.MessageHandler(msg, wParam, lParam);
-
-	// 有些鼠标操作需要渲染 ImGui 多次，见 https://github.com/ocornut/imgui/issues/2268
-	if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MOUSEWHEEL ||
-		msg == WM_MOUSEHWHEEL || msg == WM_LBUTTONUP || msg == WM_RBUTTONUP) {
-		_FrontendRender();
-	}
 }
 
 void Renderer::StartProfile() noexcept {
@@ -423,7 +343,7 @@ bool Renderer::_InitFrameSource() noexcept {
 	// 由于 DPI 缩放，捕获尺寸和边界矩形尺寸不一定相同
 	D3D11_TEXTURE2D_DESC desc;
 	_frameSource->GetOutput()->GetDesc(&desc);
-	Logger::Get().Info("";
+	Logger::Get().Info("");
 
 	return true;
 }
@@ -501,7 +421,7 @@ ID3D11Texture2D* Renderer::_BuildEffects() noexcept {
 	}
 
 	if (effectCount > 1) {
-		Logger::Get().Info("";
+		Logger::Get().Info("");
 	}
 
 	_effectDrawers.resize(effectCount);
@@ -515,7 +435,7 @@ ID3D11Texture2D* Renderer::_BuildEffects() noexcept {
 			_backendDescriptorStore,
 			&inOutTexture
 		)) {
-			Logger::Get().Error("";
+			Logger::Get().Error("");
 			return nullptr;
 		}
 
@@ -643,7 +563,7 @@ ID3D11Texture2D* Renderer::_ResizeEffects() noexcept {
 			_backendResources,
 			&inOutTexture
 		)) {
-			Logger::Get().Error("";
+			Logger::Get().Error("");
 			return nullptr;
 		}
 	}
@@ -903,7 +823,7 @@ HANDLE Renderer::_InitBackend() noexcept {
 				EnumDisplaySettings(mi.szDevice, ENUM_CURRENT_SETTINGS, &dm);
 
 				if (dm.dmDisplayFrequency > 0) {
-					Logger::Get().Info("";
+					Logger::Get().Info("");
 					maxFrameRate = float(dm.dmDisplayFrequency);
 				}
 			}
@@ -1053,33 +973,6 @@ winrt::IAsyncAction Renderer::_UpdateNextScreenshotNum(const wchar_t* imgFormat)
 
 	const std::filesystem::path& screenshotsDir = ScalingWindow::Get().Options().screenshotsDir;
 
-	if (_screenshotNum != 0) {
-		if (_screenshotNum == std::numeric_limits<uint32_t>::max()) {
-			// 如果达到 UINT_MAX 应重新寻找可用序号，除了特意构造的数据不可能出现这种情况
-			_screenshotNum = 0;
-		} else {
-			++_screenshotNum;
-
-			if (Win32Helper::DirExists(screenshotsDir.c_str())) {
-				const std::wstring fileName =
-					"";
-				if (Win32Helper::FileExists(fileName.c_str())) {
-					// 下一个序号不可用则需要重新寻找可用序号
-					_screenshotNum = 0;
-				}
-			}
-		}
-	}
-
-	if (_screenshotNum == 0) {
-		co_await winrt::resume_background();
-		// 如果已有截图很多可能较耗时，转到后台防止阻塞后端线程
-		const uint32_t screenshotNum = ScreenshotHelper::FindUnusedScreenshotNum(screenshotsDir);
-		co_await _backendThreadDispatcher;
-
-		// FindUnusedScreenshotNum 失败则始终使用 001
-		_screenshotNum = screenshotNum == 0 ? 1 : screenshotNum;
-	}
 }
 
 winrt::IAsyncOperation<bool> Renderer::_TakeScreenshotImpl(
@@ -1087,190 +980,13 @@ winrt::IAsyncOperation<bool> Renderer::_TakeScreenshotImpl(
 	uint32_t passIdx,
 	uint32_t outputIdx
 ) noexcept {
-	co_await _backendThreadDispatcher;
 
-	// 最后一个通道的输出即 OUTPUT 不会被覆盖，可以直接使用。
-	// 倒数第二个通道的输出也不会被覆盖，因为最后一个通道只会写入 OUTPUT。
-	// 从倒数第三个通道开始需要检查输出是否被后面的通道覆盖。
-	bool isOverwritten = false;
-	ID3D11Texture2D* sourceTex;
-	EffectIntermediateTextureFormat format;
-	// 效果输出保存为 png，中间结果保存为 dds
-	const wchar_t* imgFormat;
-
-	if (passIdx == std::numeric_limits<uint32_t>::max()) {
-		sourceTex = _effectDrawers[effectIdx].GetOutputTexture();
-		format = _activeEffectDescs[effectIdx]->textures[1].format;
-		imgFormat = L"png";
-	} else {
-		const std::vector<EffectPassDesc>& passes = _activeEffectDescs[effectIdx]->passes;
-		const uint32_t passCount = (uint32_t)passes.size();
-
-		const SmallVector<uint32_t>& outputs = passes[passIdx].outputs;
-		// 只有一个输出时才允许不提供 outputIdx
-		assert(outputIdx != std::numeric_limits<uint32_t>::max() || outputs.size() == 1);
-		const uint32_t targetOutput =
-			outputIdx == std::numeric_limits<uint32_t>::max() ? outputs[0] : outputs[outputIdx];
-
-		sourceTex = _effectDrawers[effectIdx].GetTexture(targetOutput);
-		format = _activeEffectDescs[effectIdx]->textures[targetOutput].format;
-		imgFormat = targetOutput == 1 ? L"png" : L"dds";
-
-		if (passIdx + 3 <= passCount) {
-			// 检查 targetOutput 是否被后面的通道修改 
-			for (uint32_t i = passIdx + 1, end = passCount - 1; i < end; ++i) {
-				const SmallVector<uint32_t>& curOutputs = passes[i].outputs;
-				if (std::find(curOutputs.begin(), curOutputs.end(), targetOutput) != curOutputs.end()) {
-					isOverwritten = true;
-					break;
-				}
-			}
-		}
-	}
-
-	co_await _UpdateNextScreenshotNum(imgFormat);
-	// 读取纹理数据时 _screenshotNum 有被并发修改的可能，把当前值保存到本地
-	const uint32_t screenshotNum = _screenshotNum;
-
-	ID3D11Device5* d3dDevice = _backendResources.GetD3DDevice();
-	ID3D11DeviceContext4* d3dDC = _backendResources.GetD3DDC();
-
-	if (isOverwritten) {
-		// 重新渲染
-		d3dDC->ClearState();
-
-		if (ID3D11Buffer* t = _dynamicCB.get()) {
-			d3dDC->CSSetConstantBuffers(1, 1, &t);
-		}
-
-		_effectDrawers[effectIdx].DrawForExport(*_activeEffectDescs[effectIdx], passIdx);
-	}
-
-	// 创建 staging 纹理
-	D3D11_TEXTURE2D_DESC desc;
-	sourceTex->GetDesc(&desc);
-	desc.Usage = D3D11_USAGE_STAGING;
-	desc.BindFlags = 0;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-	desc.MiscFlags = 0;
-
-	winrt::com_ptr<ID3D11Texture2D> stagingTex;
-	HRESULT hr = d3dDevice->CreateTexture2D(
-		&desc, nullptr, stagingTex.put());
-	if (FAILED(hr)) {
-		Logger::Get().ComError("CreateTexture2D 失败", hr);
-		co_return false;
-	}
-
-	d3dDC->CopyResource(stagingTex.get(), sourceTex);
-	
-	// 如果要导出的纹理不会被覆盖则转到后台等待 GPU 以防止卡顿
-	if (!isOverwritten) {
-		// 为避免混乱，使用独立的栅栏
-		winrt::com_ptr<ID3D11Fence> localFence;
-		wil::unique_event_nothrow localFenceEvent;
-
-		hr = d3dDevice->CreateFence(
-			0, D3D11_FENCE_FLAG_NONE, IID_PPV_ARGS(&localFence));
-		if (FAILED(hr)) {
-			Logger::Get().ComError("CreateFence 失败", hr);
-			co_return false;
-		}
-
-		if (!localFenceEvent.try_create(wil::EventOptions::None, nullptr)) {
-			Logger::Get().Win32Error("CreateEvent 失败");
-			co_return false;
-		}
-
-		hr = d3dDC->Signal(localFence.get(), 1);
-		if (FAILED(hr)) {
-			Logger::Get().ComError("Signal 失败", hr);
-			co_return false;
-		}
-
-		hr = localFence->SetEventOnCompletion(1, localFenceEvent.get());
-		if (FAILED(hr)) {
-			Logger::Get().ComError("SetEventOnCompletion 失败", hr);
-			co_return false;
-		}
-
-		d3dDC->Flush();
-
-		winrt::DispatcherQueue dispatcher = _backendThreadDispatcher;
-		co_await winrt::resume_background();
-		localFenceEvent.wait();
-		co_await dispatcher;
-	}
-
-	// 读取纹理数据到内存。isOverwritten 为真时这个调用将阻塞 CPU
-	D3D11_MAPPED_SUBRESOURCE mapped;
-	hr = d3dDC->Map(stagingTex.get(), 0, D3D11_MAP_READ, 0, &mapped);
-	if (FAILED(hr)) {
-		Logger::Get().ComError("Map 失败", hr);
-		co_return false;
-	}
-
-	std::vector<uint8_t> pixelData(size_t(mapped.RowPitch) * desc.Height);
-	std::memcpy(pixelData.data(), mapped.pData, pixelData.size());
-
-	d3dDC->Unmap(stagingTex.get(), 0);
-
-	co_await winrt::resume_background();
-
-	// 确保截图保存目录存在
-	const std::filesystem::path& screenshotsDir = ScalingWindow::Get().Options().screenshotsDir;
-	if (!Win32Helper::CreateDir(screenshotsDir.c_str(), true)) {
-		Logger::Get().Error("CreateDir 失败");
-		co_return false;
-	}
-
-	std::wstring fileName = "";
-	const std::filesystem::path& fullPath = screenshotsDir / fileName;
-
-	if (!TextureHelper::SaveTexture(
-		fullPath.c_str(), desc.Width, desc.Height, format, pixelData, mapped.RowPitch)) {
-		Logger::Get().Error("SaveImage 失败");
-		co_return false;
-	}
-
-	winrt::hstring successMsg =
-		ScalingWindow::Get().GetLocalizedString(L"Message_ScreenshotSaved");
-	ScalingWindow::Get().ShowToast(
-		"";
 	co_return true;
 }
 
 // 监听 PrintScreen 实现截屏时隐藏光标
 LRESULT CALLBACK Renderer::_LowLevelKeyboardHook(int nCode, WPARAM wParam, LPARAM lParam) {
-	if (nCode != HC_ACTION || wParam != WM_KEYDOWN) {
-		return CallNextHookEx(NULL, nCode, wParam, lParam);
-	}
-
-	KBDLLHOOKSTRUCT* info = (KBDLLHOOKSTRUCT*)lParam;
-	if (info->vkCode == VK_SNAPSHOT) {
-		// 为了缩短钩子处理时间，异步执行所有逻辑
-		ScalingWindow::Dispatcher().TryEnqueue([]() -> winrt::fire_and_forget {
-			// 暂时隐藏光标
-			Renderer& renderer = ScalingWindow::Get().Renderer();
-			renderer._cursorDrawer.IsCursorVisible(false);
-			renderer._FrontendRender();
-
-			const uint32_t runId = ScalingWindow::RunId();
-
-			winrt::DispatcherQueue dispatcher = ScalingWindow::Dispatcher();
-			co_await 200ms;
-			co_await dispatcher;
-
-			if (ScalingWindow::RunId() == runId &&
-				!renderer._cursorDrawer.IsCursorVisible()
-			) {
-				renderer._cursorDrawer.IsCursorVisible(true);
-				renderer._FrontendRender();
-			}
-		});
-	}
-
-	return CallNextHookEx(NULL, nCode, wParam, lParam);
+	return S_OK;
 }
 
 }

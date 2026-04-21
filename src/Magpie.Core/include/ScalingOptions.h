@@ -1,5 +1,5 @@
 #pragma once
-//// #include <parallel_hashmap/phmap.h>
+ #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -64,7 +64,7 @@ enum class ScalingType {
 
 struct EffectOption {
 	std::string name;
-	// phmap::flat_hash_map<std::string, float> parameters;
+	 phmap::flat_hash_map<std::string, float> parameters;
 	ScalingType scalingType = ScalingType::Normal;
 	std::pair<float, float> scale = { 1.0f,1.0f };
 

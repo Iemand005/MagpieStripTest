@@ -4,19 +4,6 @@
 //#include <spdlog/sinks/rotating_file_sink.h>
 
 bool Logger::Initialize(int logLevel, std::wstring logFileName, int logArchiveAboveSize, int logMaxArchiveFiles) noexcept {
-	try {
-	// _logger = spdlog::rotating_logger_mt(".", std::move(logFileName), logArchiveAboveSize, logMaxArchiveFiles);
-	// _logger->set_level(logLevel);
-	// _logger->set_pattern("%Y-%m-%d %H:%M:%S.%e|%l|%s:%#|%!|%v");
-	// _logger->flush_on(2);
-#ifdef _DEBUG
-		spdlog::flush_every(5s);
-#else
-		spdlog::flush_every(30s);
-#endif
-	} catch (const spdlog::spdlog_ex&) {
-		return false;
-	}
 
 	return true;
 }
@@ -30,7 +17,7 @@ void Logger::SetLevel(int logLevel) noexcept {
 	static const char* LOG_LEVELS[7] = {
 		"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL", "OFF"
 	};
-	Info(""; // ""format("当前日志级别: {}", LOG_LEVELS[logLevel]));
+	Info(""); // ""format("当前日志级别: {}", LOG_LEVELS[logLevel]));
 }
 
 void Logger::_Log(int logLevel, std::string_view msg, const SourceLocation& location) noexcept {
@@ -47,11 +34,4 @@ void Logger::_Log(int logLevel, std::string_view msg, const SourceLocation& loca
 		}
 	}
 
-	if (false) {
-	// _logger->log(
-			spdlog::source_loc{ location.FileName(), (int)location.Line(), location.FunctionName() },
-			logLevel,
-			msg
-		);
-	}
 }

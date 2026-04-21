@@ -1,5 +1,5 @@
 #pragma once
-//// #include <parallel_hashmap/phmap.h>
+ #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -57,7 +57,7 @@ private:
 
 	DeviceResources* _deviceResources = nullptr;
 
-	//// phmap::flat_hash_map<HCURSOR, _CursorInfo> _cursorInfos;
+	 phmap::flat_hash_map<HCURSOR, _CursorInfo> _cursorInfos;
 
 	winrt::com_ptr<ID3D11VertexShader> _simpleVS;
 	winrt::com_ptr<ID3D11InputLayout> _simpleIL;

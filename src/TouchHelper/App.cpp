@@ -236,9 +236,7 @@ void App::_UpdateInputTransform(bool onTimer) noexcept {
 
 				// 拖动源窗口过程中避免记录太多日志
 				if (!onTimer) {
-					Logger::Get().Info(fmt::format("当前触控输入变换: {},{},{},{}->{},{},{},{}",
-						srcRect.left, srcRect.top, srcRect.right, srcRect.bottom,
-						destRect.left, destRect.top, destRect.right, destRect.bottom));
+					
 				}
 			} else {
 				Logger::Get().Win32Error("MagSetInputTransform 失败");

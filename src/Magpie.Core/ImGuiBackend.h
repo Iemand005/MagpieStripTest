@@ -1,5 +1,5 @@
 #pragma once
-//#include <imgui.h>
+#include <imgui.h>
 
 namespace Magpie {
 
@@ -15,12 +15,12 @@ public:
 
 	bool BuildFonts() noexcept;
 
-	void RenderDrawData(const ImDrawData& drawData, POINT viewportOffset) noexcept;
+	void RenderDrawData(const void* drawData, POINT viewportOffset) noexcept;
 
 private:
 	bool _CreateDeviceObjects() noexcept;
 
-	void _SetupRenderState(const ImDrawData& drawData, POINT viewportOffset) noexcept;
+	void _SetupRenderState(const void* drawData, POINT viewportOffset) noexcept;
 
 	DeviceResources* _deviceResources = nullptr;
 

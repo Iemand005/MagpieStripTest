@@ -59,7 +59,7 @@ struct serializer<
 	ImFontAtlas
 > {
 	template <typename Archive>
-	static Archive& save(Archive& ar, const ImFontAtlas& fontAltas) noexcept {
+	static Archive& save(Archive& ar, const void * fontAltas) noexcept {
 		ar& fontAltas.Flags & fontAltas.TexUvWhitePixel& fontAltas.TexUvLines;
 
 		// 为了方便反序列化，ImFont 两次分别序列化不同部分
@@ -85,7 +85,7 @@ struct serializer<
 	}
 
 	template <typename Archive>
-	static Archive& load(Archive& ar, ImFontAtlas& fontAltas) noexcept {
+	static Archive& load(Archive& ar, void * fontAltas) noexcept {
 		fontAltas.ClearTexData();
 		ar& fontAltas.Flags& fontAltas.TexUvWhitePixel& fontAltas.TexUvLines;
 
@@ -144,69 +144,10 @@ static constexpr uint32_t FONTS_CACHE_VERSION = 7;
 static std::wstring GetCacheFileName(const std::wstring_view& language, uint32_t dpi) noexcept {
 }
 
-void ImGuiFontsCacheManager::Save(std::wstring_view language, uint32_t dpi, const ImFontAtlas& fontAltas) noexcept {
-	std::vector<uint8_t>& buffer = _cacheMap[dpi];
-	buffer.clear();
-	buffer.reserve(1024);
-
-	try {
-		yas::vector_ostream os(buffer);
-		yas::binary_oarchive<yas::vector_ostream<BYTE>, yas::binary> oa(os);
-
-		oa& FONTS_CACHE_VERSION& fontAltas;
-	} catch (...) {
-		Logger::Get().Error("序列化 ImFontAtlas 失败");
-		return;
-	}
-
-	if (!CreateDirectory(CommonSharedConstants::CACHE_DIR, nullptr)
-			&& GetLastError() != ERROR_ALREADY_EXISTS) {
-		Logger::Get().Win32Error("创建 cache 文件夹失败");
-		return;
-	}
-
-	std::wstring cacheFileName = GetCacheFileName(language, dpi);
-	if (!Win32Helper::WriteFile(cacheFileName.c_str(), buffer)) {
-		Logger::Get().Error("保存字体缓存失败");
-	}
+void ImGuiFontsCacheManager::Save(std::wstring_view language, uint32_t dpi, const void * fontAltas) noexcept {
 }
 
-bool ImGuiFontsCacheManager::Load(std::wstring_view language, uint32_t dpi, ImFontAtlas& fontAltas) noexcept {
-	const std::vector<uint8_t>* pBuffer = nullptr;
-
-	// 先在内存缓存中查找，然后是磁盘缓存
-	if (auto it = _cacheMap.find(dpi); it == _cacheMap.end()) {
-		std::wstring cacheFileName = GetCacheFileName(language, dpi);
-		if (!Win32Helper::FileExists(cacheFileName.c_str())) {
-			return false;
-		}
-
-		std::vector<uint8_t> buffer;
-		if (!Win32Helper::ReadFile(cacheFileName.c_str(), buffer) || buffer.empty()) {
-			return false;
-		}
-
-		pBuffer = &_cacheMap.emplace(dpi, std::move(buffer)).first->second;
-	} else {
-		pBuffer = &it->second;
-	}
-
-	try {
-		yas::mem_istream mi(pBuffer->data(), pBuffer->size());
-		yas::binary_iarchive<yas::mem_istream, yas::binary> ia(mi);
-
-		uint32_t cacheVersion;
-		ia& cacheVersion;
-		if (cacheVersion != FONTS_CACHE_VERSION) {
-			Logger::Get().Info("字体缓存版本不匹配");
-			return false;
-		}
-
-		ia& fontAltas;
-	} catch (...) {
-		Logger::Get().Error("反序列化失败");
-		return false;
-	}
+bool ImGuiFontsCacheManager::Load(std::wstring_view language, uint32_t dpi, void * fontAltas) noexcept {
 
 	return true;
 }

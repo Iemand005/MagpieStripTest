@@ -1,6 +1,6 @@
 #pragma once
 #include "EffectDesc.h"
-//// #include <parallel_hashmap/phmap.h>
+ #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -34,7 +34,7 @@ private:
 		EffectDesc effectDesc;
 		uint32_t lastAccess = 0;
 	};
-	//// phmap::flat_hash_map<std::wstring, _MemCacheItem> _memCache;
+	 phmap::flat_hash_map<std::wstring, _MemCacheItem> _memCache;
 
 	UINT _lastAccess = 0;
 };

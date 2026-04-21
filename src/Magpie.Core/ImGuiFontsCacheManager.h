@@ -1,6 +1,6 @@
 #pragma once
-//#include ?<imgui.h>
-//// #include <parallel_hashmap/phmap.h>
+#include <imgui.h>
+ #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -14,9 +14,9 @@ public:
 	ImGuiFontsCacheManager(const ImGuiFontsCacheManager&) = delete;
 	ImGuiFontsCacheManager(ImGuiFontsCacheManager&&) = delete;
 
-	bool Load(std::wstring_view language, uint32_t dpi, ImFontAtlas& fontAltas) noexcept;
+	bool Load(std::wstring_view language, uint32_t dpi, void * fontAltas) noexcept;
 
-	void Save(std::wstring_view language, uint32_t dpi, const ImFontAtlas& fontAltas) noexcept;
+	void Save(std::wstring_view language, uint32_t dpi, const void * fontAltas) noexcept;
 
 private:
 	ImGuiFontsCacheManager() = default;

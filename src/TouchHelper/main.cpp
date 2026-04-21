@@ -33,12 +33,6 @@ static void InitializeLogger() noexcept {
 
 	logPath.append(CommonSharedConstants::TOUCH_HELPER_LOG_NAME);
 
-	Logger::Get().Initialize(
-		spdlog::level::info,
-		std::move(logPath),
-		CommonSharedConstants::LOG_MAX_SIZE,
-		1
-	);
 }
 
 int APIENTRY wWinMain(
