@@ -125,10 +125,6 @@
     <ClInclude Include="Profile.h" />
     <ClInclude Include="ShortcutHelper.h" />
     <ClInclude Include="ProfileService.h" />
-    <ClInclude Include="HomePage.h">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="RootPage.h">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -179,10 +175,6 @@
     <ClCompile Include="ScalingModesService.cpp" />
     <ClCompile Include="ShortcutHelper.cpp" />
     <ClCompile Include="ProfileService.cpp" />
-    <ClCompile Include="HomePage.cpp">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="RootPage.cpp">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -213,10 +205,6 @@
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
-    <None Include="HomePage.idl">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </None>
     <None Include="RootPage.idl">
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -226,9 +214,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="HomePage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="RootPage.xaml">
       <SubType>Designer</SubType>
     </Page>
