@@ -29,31 +29,15 @@
     <ClInclude Include="DesktopDuplicationFrameSource.h">
       <Filter>Capture</Filter>
     </ClInclude>
-    <ClInclude Include="include\EffectCompiler.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EffectDesc.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ScalingRuntime.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="include\WindowHelper.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="include\Win32Helper.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Event.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="include\WindowBase.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="include\DirectXHelper.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="SrcTracker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScalingRuntime.cpp" />
@@ -80,7 +64,6 @@
     <ClCompile Include="Win32Helper.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="SrcTracker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

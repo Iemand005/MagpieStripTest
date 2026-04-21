@@ -12,17 +12,4 @@
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CommonDefines.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CommonSharedConstants.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SmallVector.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)StrHelper.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)StrMacros.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Version.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SmallVector.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StrHelper.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
-  </ItemGroup>
 </Project>

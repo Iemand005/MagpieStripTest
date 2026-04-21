@@ -50,17 +50,11 @@
     <ClInclude Include="FrameSourceBase.h" />
     <ClInclude Include="GDIFrameSource.h" />
     <ClInclude Include="GraphicsCaptureFrameSource.h" />
-    <ClInclude Include="include\DirectXHelper.h" />
-    <ClInclude Include="include\EffectCompiler.h" />
-    <ClInclude Include="include\EffectDesc.h" />
-    <ClInclude Include="include\ScalingRuntime.h" />
     <ClInclude Include="include\Win32Helper.h" />
     <ClInclude Include="include\WindowBase.h" />
     <ClInclude Include="include\WindowHelper.h" />
-    <ClInclude Include="include\Event.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ScalingWindow.h" />
-    <ClInclude Include="SrcTracker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DesktopDuplicationFrameSource.cpp" />
@@ -73,7 +67,6 @@
     </ClCompile>
     <ClCompile Include="ScalingRuntime.cpp" />
     <ClCompile Include="ScalingWindow.cpp" />
-    <ClCompile Include="SrcTracker.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="WindowHelper.cpp" />
   </ItemGroup>
