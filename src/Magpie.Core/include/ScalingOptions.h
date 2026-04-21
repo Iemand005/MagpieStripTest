@@ -101,7 +101,7 @@ struct OverlayWindowOption {
 };
 
 struct OverlayOptions {
-	// phmap::flat_hash_map<std::string, OverlayWindowOption> windows;
+	 phmap::flat_hash_map<std::string, OverlayWindowOption> windows;
 };
 
 enum class ScalingError {

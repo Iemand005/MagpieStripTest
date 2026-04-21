@@ -65,9 +65,7 @@ fire_and_forget EffectsService::Initialize() {
 		EffectDesc effectDesc;
 
 		effectDesc.name = StrHelper::UTF16ToUTF8(effectNames[id]);
-		if (EffectCompiler::Compile(effectDesc, EffectCompilerFlags::NoCompile)) {
-			return;
-		}
+		
 
 		EffectInfo effect;
 		effect.name = std::move(effectNames[id]);

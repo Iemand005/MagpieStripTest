@@ -21,7 +21,7 @@ void Logger::SetLevel(int logLevel) noexcept {
 }
 
 void Logger::_Log(int logLevel, std::string_view msg, const SourceLocation& location) noexcept {
-	assert(!msg.empty());
+	if (msg.empty())return;
 
 	// 只检查一次是否附加了调试器
 	static const bool isDebuggerPresent = IsDebuggerPresent();

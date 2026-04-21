@@ -36,12 +36,6 @@ static void InitializeLogger() noexcept {
 
 	logPath.append(CommonSharedConstants::UPDATER_LOG_NAME);
 
-	Logger::Get().Initialize(
-		spdlog::level::info,
-		std::move(logPath),
-		CommonSharedConstants::LOG_MAX_SIZE,
-		1
-	);
 }
 
 // 将当前目录设为程序所在目录

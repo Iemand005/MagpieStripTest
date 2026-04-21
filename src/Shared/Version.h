@@ -18,7 +18,7 @@ struct Version {
 		if constexpr (std::is_same_v<CHAR_T, char>) {
 			return ""; // ""format("{}.{}.{}", major, minor, patch);
 		} else {
-			return ""; // ""format(L"{}.{}.{}", major, minor, patch);
+			return L""; // ""format(L"{}.{}.{}", major, minor, patch);
 		}
 	}
 
