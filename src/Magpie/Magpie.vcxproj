@@ -82,6 +82,7 @@
       <!-- 不知为何 Directory.Build.props 中的不起作用 -->
       <WarningLevel>Level4</WarningLevel>
       <AdditionalIncludeDirectories>..\Magpie.Core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MultiProcessorCompilation>
     </ClCompile>
     <ClCompile Condition="$(UseClangCL)">
       <AdditionalOptions>$(LlvmArchitectureSwitch) %(AdditionalOptions)</AdditionalOptions>
@@ -239,10 +240,6 @@
     </ClInclude>
     <ClInclude Include="SettingsGroup.h">
       <DependentUpon>SettingsGroup.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="SettingsPage.h">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="SettingsViewModel.h">
@@ -435,10 +432,6 @@
       <DependentUpon>SettingsGroup.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="SettingsPage.cpp">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="SettingsViewModel.cpp">
       <DependentUpon>SettingsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -609,10 +602,6 @@
       <DependentUpon>RootPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </None>
-    <None Include="SettingsPage.idl">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -656,9 +645,6 @@
     </Page>
     <Page Include="SettingsGroup.Resource.xaml">
       <DependentUpon>SettingsGroup.idl</DependentUpon>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ShortcutControl.xaml">
