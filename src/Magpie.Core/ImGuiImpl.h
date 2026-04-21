@@ -1,6 +1,6 @@
 #pragma once
 #include "ImGuiBackend.h"
-#include <parallel_hashmap/phmap.h>
+// #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -20,7 +20,7 @@ public:
 	bool BuildFonts() noexcept;
 
 	void NewFrame(
-		phmap::flat_hash_map<std::string, OverlayWindowOption>& windowOptions,
+		// phmap::flat_hash_map<std::string, OverlayWindowOption>& windowOptions,
 		float fittsLawAdjustment,
 		float dpiScale
 	) noexcept;
@@ -47,7 +47,7 @@ private:
 
 	ImGuiBackend _backend;
 
-	phmap::flat_hash_map<std::string, ImVec4> _windowRects;
+	// phmap::flat_hash_map<std::string, ImVec4> _windowRects;
 };
 
 }

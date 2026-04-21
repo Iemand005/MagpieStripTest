@@ -71,7 +71,7 @@ bool ImGuiImpl::BuildFonts() noexcept {
 }
 
 void ImGuiImpl::NewFrame(
-	phmap::flat_hash_map<std::string, OverlayWindowOption>& windowOptions,
+	// phmap::flat_hash_map<std::string, OverlayWindowOption>& windowOptions,
 	float fittsLawAdjustment,
 	float dpiScale
 ) noexcept {

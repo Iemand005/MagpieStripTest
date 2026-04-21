@@ -1,5 +1,5 @@
 #pragma once
-//#include <parallel_hashmap/phmap.h>
+//// #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -20,7 +20,7 @@ struct EffectCompiler {
 	static uint32_t Compile(
 		struct EffectDesc& desc,
 		uint32_t flags,	// EffectCompilerFlags
-		const phmap::flat_hash_map<std::string, float>* inlineParams = nullptr
+		const // phmap::flat_hash_map<std::string, float>* inlineParams = nullptr
 	) noexcept;
 };
 

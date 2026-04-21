@@ -1,6 +1,6 @@
 #pragma once
 //#include ?<imgui.h>
-//#include <parallel_hashmap/phmap.h>
+//// #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -22,7 +22,7 @@ private:
 	ImGuiFontsCacheManager() = default;
 
 	// dpi -> 字体数据
-	phmap::flat_hash_map<uint32_t, std::vector<uint8_t>> _cacheMap;
+	// phmap::flat_hash_map<uint32_t, std::vector<uint8_t>> _cacheMap;
 };
 
 }

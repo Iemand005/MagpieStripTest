@@ -1,7 +1,7 @@
 #pragma once
 #include <compare>
 #include <tuple>
-#include <fmt/format.h>
+//#include <fmt/format.h>
 
 struct Version {
 	constexpr Version() {}
@@ -16,9 +16,9 @@ struct Version {
 	template<typename CHAR_T>
 	std::basic_string<CHAR_T> ToString() const noexcept {
 		if constexpr (std::is_same_v<CHAR_T, char>) {
-			return fmt::format("{}.{}.{}", major, minor, patch);
+			return ""; // ""format("{}.{}.{}", major, minor, patch);
 		} else {
-			return fmt::format(L"{}.{}.{}", major, minor, patch);
+			return ""; // ""format(L"{}.{}.{}", major, minor, patch);
 		}
 	}
 

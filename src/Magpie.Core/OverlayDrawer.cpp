@@ -26,7 +26,7 @@ static const char* TOOLBAR_WINDOW_ID = "toolbar";
 static const char* PROFILER_WINDOW_ID = "profiler";
 
 static void SetDefaultWindowOptions(
-	phmap::flat_hash_map<std::string, OverlayWindowOption>& windowOptions
+	// phmap::flat_hash_map<std::string, OverlayWindowOption>& windowOptions
 ) noexcept {
 	if (!windowOptions.contains(PROFILER_WINDOW_ID)) {
 		// 右侧竖直居中
@@ -1277,7 +1277,7 @@ bool OverlayDrawer::_DrawProfiler(const SmallVector<float>& effectTimings, uint3
 }
 
 const std::string& OverlayDrawer::_GetResourceString(const std::wstring_view& key) noexcept {
-	static phmap::flat_hash_map<std::wstring_view, std::string> cache;
+	static // phmap::flat_hash_map<std::wstring_view, std::string> cache;
 
 	if (auto it = cache.find(key); it != cache.end()) {
 		return it->second;

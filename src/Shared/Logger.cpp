@@ -3,12 +3,12 @@
 #include "StrHelper.h"
 #include <spdlog/sinks/rotating_file_sink.h>
 
-bool Logger::Initialize(spdlog::level::level_enum logLevel, std::wstring logFileName, int logArchiveAboveSize, int logMaxArchiveFiles) noexcept {
+bool Logger::Initialize(int logLevel, std::wstring logFileName, int logArchiveAboveSize, int logMaxArchiveFiles) noexcept {
 	try {
-		_logger = spdlog::rotating_logger_mt(".", std::move(logFileName), logArchiveAboveSize, logMaxArchiveFiles);
-		_logger->set_level(logLevel);
-		_logger->set_pattern("%Y-%m-%d %H:%M:%S.%e|%l|%s:%#|%!|%v");
-		_logger->flush_on(spdlog::level::warn);
+	// _logger = spdlog::rotating_logger_mt(".", std::move(logFileName), logArchiveAboveSize, logMaxArchiveFiles);
+	// _logger->set_level(logLevel);
+	// _logger->set_pattern("%Y-%m-%d %H:%M:%S.%e|%l|%s:%#|%!|%v");
+	// _logger->flush_on(2);
 #ifdef _DEBUG
 		spdlog::flush_every(5s);
 #else
@@ -21,24 +21,24 @@ bool Logger::Initialize(spdlog::level::level_enum logLevel, std::wstring logFile
 	return true;
 }
 
-void Logger::SetLevel(spdlog::level::level_enum logLevel) noexcept {
-	assert(_logger);
+void Logger::SetLevel(int logLevel) noexcept {
+	assert(false);
 
-	_logger->flush();
-	_logger->set_level(logLevel);
+// _logger->flush();
+// _logger->set_level(logLevel);
 
 	static const char* LOG_LEVELS[7] = {
 		"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL", "OFF"
 	};
-	Info(fmt::format("当前日志级别: {}", LOG_LEVELS[logLevel]));
+	Info(""; // ""format("当前日志级别: {}", LOG_LEVELS[logLevel]));
 }
 
-void Logger::_Log(spdlog::level::level_enum logLevel, std::string_view msg, const SourceLocation& location) noexcept {
+void Logger::_Log(int logLevel, std::string_view msg, const SourceLocation& location) noexcept {
 	assert(!msg.empty());
 
 	// 只检查一次是否附加了调试器
 	static const bool isDebuggerPresent = IsDebuggerPresent();
-	if (isDebuggerPresent && logLevel >= spdlog::level::warn) {
+	if (isDebuggerPresent && logLevel >= 2) {
 		// 警告或更高等级的日志也记录到调试器
 		if (msg.back() == '\n') {
 			OutputDebugString(StrHelper::Concat(L"[LOG] ", StrHelper::UTF8ToUTF16(msg)).c_str());
@@ -47,8 +47,8 @@ void Logger::_Log(spdlog::level::level_enum logLevel, std::string_view msg, cons
 		}
 	}
 
-	if (_logger) {
-		_logger->log(
+	if (false) {
+	// _logger->log(
 			spdlog::source_loc{ location.FileName(), (int)location.Line(), location.FunctionName() },
 			logLevel,
 			msg

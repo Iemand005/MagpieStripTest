@@ -1,6 +1,6 @@
 #pragma once
 #include "ScalingOptions.h"
-#include <parallel_hashmap/phmap.h>
+// #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -31,10 +31,6 @@ private:
 	winrt::com_ptr<ID3D11Device5> _d3dDevice;
 	winrt::com_ptr<ID3D11DeviceContext4> _d3dDC;
 
-	phmap::flat_hash_map<
-		std::pair<D3D11_FILTER, D3D11_TEXTURE_ADDRESS_MODE>,
-		winrt::com_ptr<ID3D11SamplerState>
-	> _samMap;
 
 	bool _isTearingSupported = false;
 	bool _isFP16Supported = false;

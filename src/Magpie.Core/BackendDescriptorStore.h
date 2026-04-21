@@ -1,5 +1,5 @@
 #pragma once
-#include <parallel_hashmap/phmap.h>
+//// #include <parallel_hashmap/phmap.h>
 
 namespace Magpie {
 
@@ -28,8 +28,8 @@ public:
 private:
 	ID3D11Device5* _d3dDevice = nullptr;
 
-	phmap::flat_hash_map<ID3D11Texture2D*, winrt::com_ptr<ID3D11ShaderResourceView>> _srvMap;
-	phmap::flat_hash_map<void*, winrt::com_ptr<ID3D11UnorderedAccessView>> _uavMap;
+	//// phmap::flat_hash_map<ID3D11Texture2D*, winrt::com_ptr<ID3D11ShaderResourceView>> nullptr; //;
+	//// phmap::flat_hash_map<void*, winrt::com_ptr<ID3D11UnorderedAccessView>> nullptr; //;
 };
 
 }
