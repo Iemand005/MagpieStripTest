@@ -55,8 +55,4 @@ using namespace Windows::Foundation::Metadata;
 using namespace Windows::System;
 }
 
-// fmt
-#include <fmt/format.h>
-#include <fmt/xchar.h>
-
 #include "CommonDefines.h"

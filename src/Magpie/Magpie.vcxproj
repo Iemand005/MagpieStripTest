@@ -110,23 +110,11 @@
       <DependentUpon>BlueInfoBarStyle.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="CandidateWindowItem.h">
-      <DependentUpon>CandidateWindowItem.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="ControlHelper.h" />
     <ClInclude Include="ContentDialogHelper.h" />
     <ClInclude Include="EffectHelper.h" />
-    <ClInclude Include="EffectParametersViewModel.h">
-      <DependentUpon>EffectParametersViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="EffectsService.h" />
     <ClInclude Include="FileDialogHelper.h" />
-    <ClInclude Include="HomeViewModel.h">
-      <DependentUpon>HomeViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="NotifyIconService.h" />
     <ClInclude Include="resource.h" />
@@ -182,22 +170,10 @@
       <DependentUpon>BlueInfoBarStyle.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="CandidateWindowItem.cpp">
-      <DependentUpon>CandidateWindowItem.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="ContentDialogHelper.cpp" />
     <ClCompile Include="ControlHelper.cpp" />
-    <ClCompile Include="EffectParametersViewModel.cpp">
-      <DependentUpon>EffectParametersViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="EffectsService.cpp" />
     <ClCompile Include="FileDialogHelper.cpp" />
-    <ClCompile Include="HomeViewModel.cpp">
-      <DependentUpon>HomeViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="NotifyIconService.cpp" />
@@ -249,16 +225,7 @@
     <None Include="TextMenuFlyout.idl">
       <SubType>Designer</SubType>
     </None>
-    <None Include="EffectParametersViewModel.idl">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="TextBlockHelper.idl">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="HomeViewModel.idl">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="CandidateWindowItem.idl">
       <SubType>Designer</SubType>
     </None>
     <Midl Include="App.idl">

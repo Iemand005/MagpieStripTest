@@ -1,7 +1,6 @@
 #pragma once
 #include <compare>
 #include <tuple>
-#include <fmt/format.h>
 
 struct Version {
 	constexpr Version() {}

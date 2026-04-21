@@ -181,9 +181,6 @@
     <Filter Include="Models">
       <UniqueIdentifier>{8d78810f-671d-4793-9320-65078af2d7ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ViewModels">
-      <UniqueIdentifier>{c63b1e37-fe89-4c56-a1fe-e19d6803adad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Strings">
       <UniqueIdentifier>{66be9bb7-57ad-4efd-82b1-ac88ca76677f}</UniqueIdentifier>
     </Filter>
@@ -199,17 +196,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="HomeViewModel.idl">
-      <Filter>ViewModels</Filter>
-    </None>
     <None Include="TextBlockHelper.idl">
       <Filter>Helpers</Filter>
-    </None>
-    <None Include="CandidateWindowItem.idl">
-      <Filter>ViewModels</Filter>
-    </None>
-    <None Include="EffectParametersViewModel.idl">
-      <Filter>ViewModels</Filter>
     </None>
     <None Include="TextMenuFlyout.idl">
       <Filter>Helpers</Filter>

@@ -93,8 +93,6 @@ namespace MUXC = Microsoft::UI::Xaml::Controls;
 }
 
 // fmt
-#include <fmt/format.h>
-#include <fmt/xchar.h>
 
 #include "CommonDefines.h"
 
