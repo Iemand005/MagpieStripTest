@@ -160,29 +160,7 @@ void SettingsExpander::_OnIsExpandedChanged(DependencyObject const& sender, Depe
 }
 
 void SettingsExpander::_OnItemsConnectedPropertyChanged() {
-	ItemsControl itemsContainer = GetTemplateChild(PART_ItemsContainer).try_as<ItemsControl>();
-	if (!itemsContainer) {
-		return;
-	}
 
-	IInspectable datasource = ItemsSource();
-	itemsContainer.ItemsSource(datasource ? datasource : Items());
-
-	// 应用样式
-	for (IInspectable const& item : itemsContainer.Items()) {
-		SettingsCard settingsCard = item.try_as<SettingsCard>();
-		if (!settingsCard) {
-			continue;
-		}
-		
-		if (settingsCard.ReadLocalValue(FrameworkElement::StyleProperty()) == DependencyProperty::UnsetValue()) {
-			ResourceDictionary resources = App::Get().Resources();
-			const wchar_t* key = settingsCard.IsClickEnabled()
-				? L"ClickableSettingsExpanderItemStyle"
-				: L"DefaultSettingsExpanderItemStyle";
-			settingsCard.Style(resources.Lookup(box_value(key)).try_as<Windows::UI::Xaml::Style>());
-		}
-	}
 }
 
 // 防止加载后立刻展示动画

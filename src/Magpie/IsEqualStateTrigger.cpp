@@ -49,7 +49,7 @@ static bool AreValuesEqual(IInspectable const& value1, IInspectable const& value
 		switch (v1.Type()) {
 		case PropertyType::OtherType:
 		{
-			return value1.try_as<ContentAlignment>() == value2.try_as<ContentAlignment>();
+			return false;
 		}
 		default:
 			return false;

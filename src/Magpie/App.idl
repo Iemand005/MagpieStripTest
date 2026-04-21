@@ -15,7 +15,6 @@ namespace Magpie {
 #include "CaptionButtonsControl.idl"
 #include "TitleBarControl.idl"
 #include "PageFrame.idl"
-#include "SettingsCard.idl"
 #include "SettingsExpander.idl"
 #include "SettingsGroup.idl"
 #include "KeyVisual.idl"

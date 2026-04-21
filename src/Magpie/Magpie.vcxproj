@@ -167,10 +167,6 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="NotifyIconService.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SettingsCard.h">
-      <DependentUpon>SettingsCard.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="SettingsExpander.h">
       <DependentUpon>SettingsExpander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -356,10 +352,6 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="NotifyIconService.cpp" />
     <ClCompile Include="ScalingMode.cpp" />
-    <ClCompile Include="SettingsCard.cpp">
-      <DependentUpon>SettingsCard.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="SettingsExpander.cpp">
       <DependentUpon>SettingsExpander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -505,9 +497,6 @@
     <None Include="ControlSizeTrigger.idl">
       <SubType>Designer</SubType>
     </None>
-    <None Include="SettingsCard.idl">
-      <SubType>Code</SubType>
-    </None>
     <None Include="CaptionButtonsControl.idl">
       <DependentUpon>CaptionButtonsControl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -633,10 +622,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ScalingModesPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SettingsCard.Resource.xaml">
-      <DependentUpon>SettingsCard.idl</DependentUpon>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsExpander.Resource.xaml">

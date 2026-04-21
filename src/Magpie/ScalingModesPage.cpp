@@ -49,8 +49,6 @@ void ScalingModesPage::NewScalingModeNameTextBox_KeyDown(IInspectable const&, Ke
 }
 
 void ScalingModesPage::NewScalingModeConfirmButton_Click(IInspectable const&, RoutedEventArgs const&) {
-	NewScalingModeFlyout().Hide();
-	_viewModel->AddScalingMode();
 }
 
 void ScalingModesPage::ScalingModeMoreOptionsButton_Click(IInspectable const& sender, RoutedEventArgs const&) {

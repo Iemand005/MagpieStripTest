@@ -255,9 +255,6 @@
     <None Include="KeyVisualState.idl">
       <Filter>Controls</Filter>
     </None>
-    <None Include="SettingsCard.idl">
-      <Filter>Controls</Filter>
-    </None>
     <None Include="IsEqualStateTrigger.idl">
       <Filter>Triggers</Filter>
     </None>

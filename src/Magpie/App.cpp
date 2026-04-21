@@ -30,7 +30,6 @@
 #include "MainWindow.h"
 #include "NotifyIconService.h"
 #include "ScalingService.h"
-#include "SettingsCard.h"
 #include "SettingsExpander.h"
 #include "SettingsGroup.h"
 #include "ShortcutService.h"
@@ -155,7 +154,6 @@ bool App::Initialize(const wchar_t* arguments) {
 	}
 
 	// 延迟注册 DependencyProperty，见 FixThreadPoolCrash
-	SettingsCard::RegisterDependencyProperties();
 	SettingsExpander::RegisterDependencyProperties();
 	SettingsGroup::RegisterDependencyProperties();
 	ControlSizeTrigger::RegisterDependencyProperties();
