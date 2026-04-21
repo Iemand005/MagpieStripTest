@@ -9,167 +9,23 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="ShortcutService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="ShortcutHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="ScalingService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="Shortcut.cpp">
-      <Filter>Models</Filter>
-    </ClCompile>
-    <ClCompile Include="ProfileService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="IconHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="AppXReader.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="AutoStartHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectsService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="ScalingModesService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="JsonHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="UpdateService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentDialogHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="LocalizationService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="FileDialogHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="TouchHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="ToastService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
-    <ClCompile Include="ThemeHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="NotifyIconService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="XamlHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="AdaptersService.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="SmoothResizeHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="ScalingMode.cpp">
-      <Filter>Models</Filter>
-    </ClCompile>
-    <ClCompile Include="ControlHelper.cpp">
-      <Filter>Helpers</Filter>
+    <ClCompile Include="RootPage.cpp">
+      <Filter>Pages</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="ShortcutService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="ShortcutHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="ScalingService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortcut.h">
-      <Filter>Models</Filter>
-    </ClInclude>
-    <ClInclude Include="Profile.h">
-      <Filter>Models</Filter>
-    </ClInclude>
-    <ClInclude Include="ProfileService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="IconHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="AppXReader.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="AutoStartHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="ScalingMode.h">
-      <Filter>Models</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectsService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="ScalingModesService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="JsonHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentDialogHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="LocalizationService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="FileDialogHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="TouchHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="ToastService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
     <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="XamlWindow.h" />
-    <ClInclude Include="ThemeHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="NotifyIconService.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="XamlHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="AdaptersService.h">
-      <Filter>Services</Filter>
+    <ClInclude Include="RootPage.h">
+      <Filter>Pages</Filter>
     </ClInclude>
-    <ClInclude Include="SmoothResizeHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlHelper.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
+    <ClInclude Include="XamlWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Pages">
