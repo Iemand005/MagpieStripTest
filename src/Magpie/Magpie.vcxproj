@@ -81,7 +81,7 @@
       <PreprocessorDefinitions>_VSDESIGNER_DONT_LOAD_AS_DLL;DISABLE_XAML_GENERATED_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- 不知为何 Directory.Build.props 中的不起作用 -->
       <WarningLevel>Level4</WarningLevel>
-      <AdditionalIncludeDirectories>..\Magpie.Core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\MagpieStripTest\src\Magpie.Core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MultiProcessorCompilation>
     </ClCompile>
     <ClCompile Condition="$(UseClangCL)">
