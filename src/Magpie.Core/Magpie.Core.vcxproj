@@ -45,109 +45,37 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BackendDescriptorStore.h" />
-    <ClInclude Include="CompSwapchainPresenter.h" />
-    <ClInclude Include="CursorManager.h" />
-    <ClInclude Include="CursorDrawer.h" />
-    <ClInclude Include="DDS.h" />
-    <ClInclude Include="DDSHelper.h" />
     <ClInclude Include="DesktopDuplicationFrameSource.h" />
-    <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="DwmSharedSurfaceFrameSource.h" />
-    <ClInclude Include="EffectCacheManager.h" />
-    <ClInclude Include="EffectDrawer.h" />
-    <ClInclude Include="EffectHelper.h" />
-    <ClInclude Include="EffectsProfiler.h" />
-    <ClInclude Include="ExclModeHelper.h" />
     <ClInclude Include="FrameSourceBase.h" />
     <ClInclude Include="GDIFrameSource.h" />
     <ClInclude Include="GraphicsCaptureFrameSource.h" />
-    <ClInclude Include="ImGuiBackend.h" />
-    <ClInclude Include="ImGuiFontsCacheManager.h" />
-    <ClInclude Include="OverlayHelper.h" />
-    <ClInclude Include="ImGuiImpl.h" />
     <ClInclude Include="include\DirectXHelper.h" />
     <ClInclude Include="include\EffectCompiler.h" />
     <ClInclude Include="include\EffectDesc.h" />
-    <ClInclude Include="include\ScalingOptions.h" />
     <ClInclude Include="include\ScalingRuntime.h" />
     <ClInclude Include="include\Win32Helper.h" />
     <ClInclude Include="include\WindowBase.h" />
     <ClInclude Include="include\WindowHelper.h" />
     <ClInclude Include="include\Event.h" />
-    <ClInclude Include="OverlayDrawer.h" />
-    <ClInclude Include="PresenterBase.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ScalingWindow.h" />
-    <ClInclude Include="ScreenshotHelper.h" />
     <ClInclude Include="SrcTracker.h" />
-    <ClInclude Include="StepTimer.h" />
-    <ClInclude Include="AdaptivePresenter.h" />
-    <ClInclude Include="TextureHelper.h" />
-    <ClInclude Include="YasHelper.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BackendDescriptorStore.cpp" />
-    <ClCompile Include="CompSwapchainPresenter.cpp" />
-    <ClCompile Include="CursorManager.cpp" />
-    <ClCompile Include="CursorDrawer.cpp" />
-    <ClCompile Include="DDSHelper.cpp" />
     <ClCompile Include="DesktopDuplicationFrameSource.cpp" />
-    <ClCompile Include="DeviceResources.cpp" />
-    <ClCompile Include="DirectXHelper.cpp" />
     <ClCompile Include="DwmSharedSurfaceFrameSource.cpp" />
-    <ClCompile Include="EffectCacheManager.cpp" />
-    <ClCompile Include="EffectCompiler.cpp" />
-    <ClCompile Include="EffectDrawer.cpp" />
-    <ClCompile Include="EffectsProfiler.cpp" />
-    <ClCompile Include="ExclModeHelper.cpp" />
     <ClCompile Include="FrameSourceBase.cpp" />
     <ClCompile Include="GDIFrameSource.cpp" />
     <ClCompile Include="GraphicsCaptureFrameSource.cpp" />
-    <ClCompile Include="ImGuiBackend.cpp" />
-    <ClCompile Include="ImGuiFontsCacheManager.cpp" />
-    <ClCompile Include="OverlayHelper.cpp" />
-    <ClCompile Include="ImGuiImpl.cpp" />
-    <ClCompile Include="OverlayDrawer.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PresenterBase.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="ScalingOptions.cpp" />
     <ClCompile Include="ScalingRuntime.cpp" />
     <ClCompile Include="ScalingWindow.cpp" />
-    <ClCompile Include="ScreenshotHelper.cpp" />
     <ClCompile Include="SrcTracker.cpp" />
-    <ClCompile Include="StepTimer.cpp" />
-    <ClCompile Include="AdaptivePresenter.cpp" />
-    <ClCompile Include="TextureHelper.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="WindowHelper.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="shaders\DuplicateFrameCS.hlsl">
-      <ShaderType>Compute</ShaderType>
-    </FxCompile>
-    <FxCompile Include="shaders\ImGuiImplPS.hlsl">
-      <ShaderType>Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="shaders\ImGuiImplVS.hlsl">
-      <ShaderType>Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="shaders\MaskedCursorPS.hlsl">
-      <ShaderType>Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="shaders\MonochromeCursorPS.hlsl">
-      <ShaderType>Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="shaders\SimplePS.hlsl">
-      <ShaderType>Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="shaders\SimpleVS.hlsl">
-      <ShaderType>Vertex</ShaderType>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

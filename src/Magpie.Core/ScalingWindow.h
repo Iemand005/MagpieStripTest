@@ -1,5 +1,4 @@
 #pragma once
-#include "ScalingOptions.h"
 #include "SrcTracker.h"
 #include "WindowBase.h"
 
