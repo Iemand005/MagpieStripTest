@@ -61,4 +61,3 @@ using namespace Windows::UI::Xaml::Hosting;
 namespace MUXC = Microsoft::UI::Xaml::Controls;
 }
 
-#include "CommonDefines.h"
