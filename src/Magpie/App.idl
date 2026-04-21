@@ -2,11 +2,7 @@ namespace Magpie {
 	delegate void SignalDelegate();
 }
 
-#include "CaptionButtonsControl.idl"
-#include "TitleBarControl.idl"
-#include "PageFrame.idl"
 #include "RootPage.idl"
-#include "HomePage.idl"
 
 namespace Magpie {
 	[default_interface]

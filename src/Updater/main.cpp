@@ -14,12 +14,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "pch.h"
-#include "CommonSharedConstants.h"
-#include "Logger.h"
-#include "PackageFiles.h"
-#include "StrHelper.h"
-#include "Version.h"
 #include <shellapi.h>
+//#include 8shellapi.h>
 
 static void InitializeLogger() noexcept {
 	// 日志文件创建在 Temp 目录中

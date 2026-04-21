@@ -1,7 +1,4 @@
 #pragma once
-#include "Logger.h"
-#include "StrHelper.h"
-#include "Version.h"
 
 namespace Magpie {
 
@@ -190,8 +187,7 @@ struct Win32Helper {
 		if (!hMod) {
 			hMod = LoadLibraryEx(dllName, NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
 			if (!hMod) {
-				Logger::Get().Win32Error(fmt::format("加载 {} 失败",
-					StrHelper::UTF16ToUTF8(dllName)));
+
 				return nullptr;
 			}
 		}
@@ -201,11 +197,7 @@ struct Win32Helper {
 			const uintptr_t ordinal = reinterpret_cast<uintptr_t>(funcName);
 			// 小于 0xFFFF 则为序号
 			if (ordinal <= 0xFFFFu) {
-				Logger::Get().Win32Error(fmt::format("加载 {}!{} 失败",
-					StrHelper::UTF16ToUTF8(dllName), ordinal));
 			} else {
-				Logger::Get().Win32Error(fmt::format("加载 {}!{} 失败",
-					StrHelper::UTF16ToUTF8(dllName), funcName));
 			}
 			
 			return nullptr;

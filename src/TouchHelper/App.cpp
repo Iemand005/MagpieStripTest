@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "App.h"
-#include "CommonSharedConstants.h"
-#include "Logger.h"
 #include <magnification.h>
 
 static const UINT WM_MAGPIE_SCALINGCHANGED =

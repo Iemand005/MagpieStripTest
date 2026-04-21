@@ -45,28 +45,15 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DesktopDuplicationFrameSource.h" />
-    <ClInclude Include="DwmSharedSurfaceFrameSource.h" />
-    <ClInclude Include="FrameSourceBase.h" />
-    <ClInclude Include="GDIFrameSource.h" />
-    <ClInclude Include="GraphicsCaptureFrameSource.h" />
     <ClInclude Include="include\Win32Helper.h" />
     <ClInclude Include="include\WindowBase.h" />
     <ClInclude Include="include\WindowHelper.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="ScalingWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DesktopDuplicationFrameSource.cpp" />
-    <ClCompile Include="DwmSharedSurfaceFrameSource.cpp" />
-    <ClCompile Include="FrameSourceBase.cpp" />
-    <ClCompile Include="GDIFrameSource.cpp" />
-    <ClCompile Include="GraphicsCaptureFrameSource.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ScalingRuntime.cpp" />
-    <ClCompile Include="ScalingWindow.cpp" />
     <ClCompile Include="Win32Helper.cpp" />
     <ClCompile Include="WindowHelper.cpp" />
   </ItemGroup>

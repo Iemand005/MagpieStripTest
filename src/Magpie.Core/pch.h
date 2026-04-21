@@ -55,4 +55,3 @@ using namespace Windows::Foundation::Metadata;
 using namespace Windows::System;
 }
 
-#include "CommonDefines.h"

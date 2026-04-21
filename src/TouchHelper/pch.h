@@ -25,4 +25,3 @@
 #undef RESOURCE_SUPPRESS_STL
 #undef WIL_ENABLE_EXCEPTIONS
 
-#include "CommonDefines.h"

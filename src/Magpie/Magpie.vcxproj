@@ -106,10 +106,6 @@
     <ClInclude Include="AdaptersService.h" />
     <ClInclude Include="AppXReader.h" />
     <ClInclude Include="AutoStartHelper.h" />
-    <ClInclude Include="BlueInfoBarStyle.h">
-      <DependentUpon>BlueInfoBarStyle.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="ControlHelper.h" />
     <ClInclude Include="ContentDialogHelper.h" />
     <ClInclude Include="EffectHelper.h" />
@@ -166,10 +162,6 @@
     <ClCompile Include="AdaptersService.cpp" />
     <ClCompile Include="AppXReader.cpp" />
     <ClCompile Include="AutoStartHelper.cpp" />
-    <ClCompile Include="BlueInfoBarStyle.cpp">
-      <DependentUpon>BlueInfoBarStyle.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="ContentDialogHelper.cpp" />
     <ClCompile Include="ControlHelper.cpp" />
     <ClCompile Include="EffectsService.cpp" />
@@ -218,16 +210,6 @@
     <ClCompile Include="XamlHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BlueInfoBarStyle.idl">
-      <DependentUpon>BlueInfoBarStyle.xaml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="TextMenuFlyout.idl">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="TextBlockHelper.idl">
-      <SubType>Designer</SubType>
-    </None>
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
@@ -244,9 +226,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BlueInfoBarStyle.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="HomePage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -297,11 +276,6 @@
     <Image Include="Magpie.ico">
       <DeploymentContent>false</DeploymentContent>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Magpie.Core\Magpie.Core.vcxproj">
-      <Project>{0e5205ae-dfa9-4cb8-b662-e43cd6512e2a}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <!-- 导入 Microsoft.AppXPackage.Targets 以生成 pri，应在 Microsoft.Cpp.targets 之后 -->

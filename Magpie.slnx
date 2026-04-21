@@ -21,12 +21,8 @@
     <BuildDependency Project="src/_ConanDeps/_ConanDeps.vcxproj" />
   </Project>
   <Project Path="src/Magpie/Magpie.vcxproj" Id="1239537c-e5b8-427a-9e7f-ea443d1f3529">
-    <BuildDependency Project="src/Effects/Effects.vcxproj" />
-    <BuildDependency Project="src/TouchHelper/TouchHelper.vcxproj" />
-    <BuildDependency Project="src/Updater/Updater.vcxproj" />
     <BuildDependency Project="src/_ConanDeps/_ConanDeps.vcxproj" />
   </Project>
-  <Project Path="src/Shared/Shared.vcxitems" Id="aabda3a3-7b23-4189-895b-f68a4c6b14c2" />
   <Project Path="src/TouchHelper/TouchHelper.vcxproj" Id="05b51bb8-08cb-4907-884f-8e2ad6bf6052">
     <BuildDependency Project="src/_ConanDeps/_ConanDeps.vcxproj" />
   </Project>
