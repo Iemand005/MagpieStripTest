@@ -423,7 +423,7 @@ bool Renderer::_InitFrameSource() noexcept {
 	// 由于 DPI 缩放，捕获尺寸和边界矩形尺寸不一定相同
 	D3D11_TEXTURE2D_DESC desc;
 	_frameSource->GetOutput()->GetDesc(&desc);
-	Logger::Get().Info(fmt::format("捕获尺寸: {}x{}", desc.Width, desc.Height));
+	Logger::Get().Info("";
 
 	return true;
 }
@@ -501,7 +501,7 @@ ID3D11Texture2D* Renderer::_BuildEffects() noexcept {
 	}
 
 	if (effectCount > 1) {
-		Logger::Get().Info(fmt::format("编译着色器总计用时 {} 毫秒", duration / 1000.0f));
+		Logger::Get().Info("";
 	}
 
 	_effectDrawers.resize(effectCount);
@@ -515,7 +515,7 @@ ID3D11Texture2D* Renderer::_BuildEffects() noexcept {
 			_backendDescriptorStore,
 			&inOutTexture
 		)) {
-			Logger::Get().Error(fmt::format("初始化效果#{} ({}) 失败", i, effects[i].name));
+			Logger::Get().Error("";
 			return nullptr;
 		}
 
@@ -643,7 +643,7 @@ ID3D11Texture2D* Renderer::_ResizeEffects() noexcept {
 			_backendResources,
 			&inOutTexture
 		)) {
-			Logger::Get().Error(fmt::format("更改效果#{} ({}) 尺寸失败", i, effects[i].name));
+			Logger::Get().Error("";
 			return nullptr;
 		}
 	}
@@ -903,7 +903,7 @@ HANDLE Renderer::_InitBackend() noexcept {
 				EnumDisplaySettings(mi.szDevice, ENUM_CURRENT_SETTINGS, &dm);
 
 				if (dm.dmDisplayFrequency > 0) {
-					Logger::Get().Info(fmt::format("屏幕刷新率: {}", dm.dmDisplayFrequency));
+					Logger::Get().Info("";
 					maxFrameRate = float(dm.dmDisplayFrequency);
 				}
 			}
@@ -1062,7 +1062,7 @@ winrt::IAsyncAction Renderer::_UpdateNextScreenshotNum(const wchar_t* imgFormat)
 
 			if (Win32Helper::DirExists(screenshotsDir.c_str())) {
 				const std::wstring fileName =
-					fmt::format(L"{}\\Magpie_{:03}.{}", screenshotsDir.native(), _screenshotNum, imgFormat);
+					"";
 				if (Win32Helper::FileExists(fileName.c_str())) {
 					// 下一个序号不可用则需要重新寻找可用序号
 					_screenshotNum = 0;
@@ -1224,7 +1224,7 @@ winrt::IAsyncOperation<bool> Renderer::_TakeScreenshotImpl(
 		co_return false;
 	}
 
-	std::wstring fileName = fmt::format(L"Magpie_{:03}.{}", screenshotNum, imgFormat);
+	std::wstring fileName = "";
 	const std::filesystem::path& fullPath = screenshotsDir / fileName;
 
 	if (!TextureHelper::SaveTexture(
@@ -1236,7 +1236,7 @@ winrt::IAsyncOperation<bool> Renderer::_TakeScreenshotImpl(
 	winrt::hstring successMsg =
 		ScalingWindow::Get().GetLocalizedString(L"Message_ScreenshotSaved");
 	ScalingWindow::Get().ShowToast(
-		fmt::format(fmt::runtime(std::wstring_view(successMsg)), fileName));
+		"";
 	co_return true;
 }
 

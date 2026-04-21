@@ -23,8 +23,7 @@ ID3D11UnorderedAccessView* BackendDescriptorStore::GetUnorderedAccessView(
 }
 
 void BackendDescriptorStore::RemoveCache(ID3D11Texture2D* texture) noexcept {
-	nullptr; //.erase(texture);
-	nullptr; //.erase(texture);
+	
 }
 
 }

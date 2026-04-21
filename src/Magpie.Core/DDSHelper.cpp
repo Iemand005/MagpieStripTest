@@ -739,107 +739,8 @@ static HRESULT CreateTextureFromDDS(
 	_In_ unsigned int bindFlags,
 	winrt::com_ptr<ID3D11Texture2D>& texture
 ) noexcept {
-	HRESULT hr = S_OK;
 
-	const UINT width = header->width;
-	const UINT height = header->height;
-
-	DXGI_FORMAT format = DXGI_FORMAT_UNKNOWN;
-
-	size_t mipCount = header->mipMapCount;
-	if (0 == mipCount) {
-		mipCount = 1;
-	}
-
-	if ((header->ddspf.flags & DDS_FOURCC) &&
-		(MAKEFOURCC('D', 'X', '1', '0') == header->ddspf.fourCC)) {
-		auto d3d10ext = reinterpret_cast<const DDS_HEADER_DXT10*>(reinterpret_cast<const char*>(header) + sizeof(DDS_HEADER));
-
-		if (d3d10ext->arraySize != 1) {
-			return HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
-		}
-
-		switch (d3d10ext->dxgiFormat) {
-		case DXGI_FORMAT_AI44:
-		case DXGI_FORMAT_IA44:
-		case DXGI_FORMAT_P8:
-		case DXGI_FORMAT_A8P8:
-			Logger::Get().Error("ERROR: DDSTextureLoader does not support video textures. Consider using DirectXTex instead.\n");
-			return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-
-		default:
-			if (BitsPerPixel(d3d10ext->dxgiFormat) == 0) {
-				Logger::Get().Error(fmt::format("ERROR: Unknown DXGI format ({})\n", static_cast<uint32_t>(d3d10ext->dxgiFormat)));
-				return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-			}
-		}
-
-		format = d3d10ext->dxgiFormat;
-
-		if (d3d10ext->resourceDimension == D3D11_RESOURCE_DIMENSION_TEXTURE2D) {
-			if (d3d10ext->miscFlag & D3D11_RESOURCE_MISC_TEXTURECUBE) {
-				return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-			}
-		} else {
-			Logger::Get().Error(fmt::format("ERROR: Unknown resource dimension ({})\n", static_cast<uint32_t>(d3d10ext->resourceDimension)));
-			return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-		}
-	} else {
-		format = GetDXGIFormat(header->ddspf);
-
-		if (format == DXGI_FORMAT_UNKNOWN) {
-			Logger::Get().Error("ERROR: DDSTextureLoader does not support all legacy DDS formats. Consider using DirectXTex.\n");
-			return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-		}
-
-		if (header->flags & DDS_HEADER_FLAGS_VOLUME) {
-			return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-		} else {
-			if (header->caps2 & DDS_CUBEMAP) {
-				return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-			}
-
-			// Note there's no way for a legacy Direct3D 9 DDS to express a '1D' texture
-		}
-
-		assert(BitsPerPixel(format) != 0);
-	}
-
-	// Bound sizes (for security purposes we don't trust DDS file metadata larger than the Direct3D hardware requirements)
-	if (mipCount > D3D11_REQ_MIP_LEVELS) {
-		Logger::Get().Error(fmt::format("ERROR: Too many mipmap levels defined for DirectX 11 ({}).\n", mipCount));
-		return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-	}
-
-	if ((width > D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION) ||
-		(height > D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION)) {
-		Logger::Get().Error(fmt::format("ERROR: Resource dimensions too large for DirectX 11 (2D: size {} by {})\n", width, height));
-		return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
-	}
-
-	// Create the texture
-	std::unique_ptr<D3D11_SUBRESOURCE_DATA[]> initData(new (std::nothrow) D3D11_SUBRESOURCE_DATA[mipCount]);
-	if (!initData) {
-		return E_OUTOFMEMORY;
-	}
-
-	size_t twidth = 0;
-	size_t theight = 0;
-	hr = FillInitData(width, height, mipCount, format,
-		bitSize, bitData, twidth, theight, initData.get());
-
-	if (SUCCEEDED(hr)) {
-		hr = CreateD3DResources(
-			d3dDevice,
-			twidth, theight, mipCount,
-			format,
-			usage, bindFlags,
-			initData.get(),
-			texture
-		);
-	}
-
-	return hr;
+	return S_OK;
 }
 
 static HRESULT CreateDDSTextureFromFileEx(
@@ -849,30 +750,8 @@ static HRESULT CreateDDSTextureFromFileEx(
 	unsigned int bindFlags,
 	winrt::com_ptr<ID3D11Texture2D>& texture
 ) noexcept {
-	const DDS_HEADER* header = nullptr;
-	const uint8_t* bitData = nullptr;
-	size_t bitSize = 0;
+	return S_OK;
 
-	std::unique_ptr<uint8_t[]> ddsData;
-	HRESULT hr = LoadTextureDataFromFile(
-		fileName,
-		ddsData,
-		&header,
-		&bitData,
-		&bitSize
-	);
-	if (FAILED(hr)) {
-		return hr;
-	}
-
-	hr = CreateTextureFromDDS(
-		d3dDevice,
-		header, bitData, bitSize,
-		usage, bindFlags,
-		texture
-	);
-
-	return hr;
 }
 
 //-------------------------------------------------------------------------------------
@@ -904,44 +783,6 @@ static bool EncodeDDSHeader(
 	uint32_t& ddsRowPitch,
 	uint32_t& ddsSlicePitch
 ) noexcept {
-	*reinterpret_cast<uint32_t*>(pDestination) = DDS_MAGIC;
-
-	auto header = reinterpret_cast<DDS_HEADER*>(static_cast<uint8_t*>(pDestination) + sizeof(uint32_t));
-	assert(header);
-
-	memset(header, 0, sizeof(DDS_HEADER));
-	header->size = sizeof(DDS_HEADER);
-	header->flags = DDS_HEADER_FLAGS_TEXTURE | DDS_HEADER_FLAGS_PITCH;
-	header->caps = DDS_SURFACE_FLAGS_TEXTURE;
-	header->height = height;
-	header->width = width;
-	header->depth = 1;
-
-	size_t rowPitch, slicePitch;
-	if (!ComputePitch(format, width, height, rowPitch, slicePitch)) {
-		Logger::Get().Error("ComputePitch 失败");
-		return false;
-	}
-
-	if (slicePitch > UINT32_MAX || rowPitch > UINT32_MAX) {
-		Logger::Get().Error("slicePitch 或 rowPitch 过大");
-		return false;
-	}
-
-	ddsRowPitch = (uint32_t)rowPitch;
-	ddsSlicePitch = (uint32_t)slicePitch;
-
-	header->pitchOrLinearSize = static_cast<uint32_t>(rowPitch);
-
-	memcpy(&header->ddspf, &DDSPF_DX10, sizeof(DDS_PIXELFORMAT));
-
-	auto ext = reinterpret_cast<DDS_HEADER_DXT10*>(reinterpret_cast<uint8_t*>(header) + sizeof(DDS_HEADER));
-	assert(ext);
-
-	memset(ext, 0, sizeof(DDS_HEADER_DXT10));
-	ext->dxgiFormat = format;
-	ext->resourceDimension = DDS_DIMENSION_TEXTURE2D;
-	ext->arraySize = 1;
 
 	return true;
 }
@@ -957,57 +798,6 @@ static bool SaveToDDSFile(
 	std::span<uint8_t> pixelData,
 	uint32_t rowPitch
 ) noexcept {
-	// 创建 DDS 头
-	uint8_t header[DDS_DX10_HEADER_SIZE];
-	uint32_t ddsRowPitch;
-	uint32_t ddsSlicePitch;
-	if (!EncodeDDSHeader(width, height, format, header, ddsRowPitch, ddsSlicePitch)) {
-		Logger::Get().Error("EncodeDDSHeader 失败");
-		return false;
-	}
-
-	wil::unique_hfile hFile(CreateFile2(
-		fileName,
-		GENERIC_WRITE | DELETE, 0, CREATE_ALWAYS, nullptr)
-	);
-	if (!hFile) {
-		Logger::Get().Win32Error("CreateFile2 失败");
-		return false;
-	}
-
-	DWORD bytesWritten;
-	if (!WriteFile(hFile.get(), header, (DWORD)DDS_DX10_HEADER_SIZE, &bytesWritten, nullptr) ||
-		bytesWritten != DDS_DX10_HEADER_SIZE) {
-		Logger::Get().Win32Error("WriteFile 失败");
-		return false;
-	}
-
-	// 写入图像
-	if ((uint32_t)pixelData.size() == ddsSlicePitch) {
-		if (!WriteFile(hFile.get(), pixelData.data(), (DWORD)ddsSlicePitch, &bytesWritten, nullptr) ||
-			bytesWritten != ddsSlicePitch) {
-			Logger::Get().Win32Error("WriteFile 失败");
-			return false;
-		}
-	} else {
-		if (rowPitch < ddsRowPitch) {
-			// DDS 使用字节对齐，所以肯定是 rowPitch 错误
-			Logger::Get().Win32Error("rowPitch 参数非法");
-			return false;
-		}
-
-		const uint8_t* __restrict sPtr = pixelData.data();
-
-		for (uint32_t i = 0; i < height; ++i) {
-			if (!WriteFile(hFile.get(), sPtr, (DWORD)ddsRowPitch, &bytesWritten, nullptr) ||
-				bytesWritten != ddsRowPitch) {
-				Logger::Get().Win32Error("WriteFile 失败");
-				return false;
-			}
-
-			sPtr += rowPitch;
-		}
-	}
 
 	return true;
 }
@@ -1038,11 +828,6 @@ bool DDSHelper::Save(
 	std::span<uint8_t> pixelData,
 	uint32_t rowPitch
 ) {
-	if (!SaveToDDSFile(fileName, width, height, format, pixelData, rowPitch)) {
-		DeleteFile(fileName);
-		return false;
-	}
-
 	return true;
 }
 

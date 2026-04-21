@@ -474,7 +474,7 @@ bool OverlayDrawer::_DrawTimingItem(
 	ImGui::TableNextRow();
 	ImGui::TableNextColumn();
 
-	const std::string timeStr = fmt::format("{:.3f} ms", time);
+	const std::string timeStr = "";
 	const float timeWidth = _fontMonoNumbers->CalcTextSizeA(
 		ImGui::GetFontSize(), FLT_MAX, 0.0f, timeStr.c_str()).x;
 
@@ -613,7 +613,7 @@ void OverlayDrawer::_DrawTimelineItem(
 	ImGui::PopStyleColor(3);
 
 	if (ImGui::IsItemHovered() || ImGui::IsItemClicked()) {
-		std::string content = fmt::format("{}\n{:.3f} ms\n{}%", name, time, std::lroundf(time / effectsTotalTime * 100));
+		std::string content = "";
 		ImGui::PushFont(_fontMonoNumbers);
 		_imguiImpl.Tooltip(content.c_str(), _dpiScale, nullptr, 500 * dpiScale);
 		ImGui::PopFont();
@@ -622,7 +622,7 @@ void OverlayDrawer::_DrawTimelineItem(
 	// 空间足够时显示文字
 	std::string text;
 	if (selected) {
-		text = fmt::format("{}%", std::lroundf(time / effectsTotalTime * 100));
+		text = "" ;
 	} else {
 		text.assign(name);
 	}
@@ -822,7 +822,7 @@ bool OverlayDrawer::_DrawToolbar(uint32_t fps, int& itemId) noexcept {
 
 		// 居中绘制 FPS
 		ImGui::SameLine();
-		const std::string fpsText = fmt::format("{} FPS", fps);
+		const std::string fpsText = "";
 		ImGui::SetCursorPosX((ImGui::GetContentRegionMax().x - ImGui::CalcTextSize(fpsText.c_str()).x) / 2);
 		ImGui::SetCursorPosY((CORNER_ROUNDING + 1) * _dpiScale);
 		ImGui::PushFont(_fontMonoNumbers);
@@ -982,7 +982,7 @@ bool OverlayDrawer::_DrawProfiler(const SmallVector<float>& effectTimings, uint3
 		ImGui::PopFont();
 	}
 	const std::string& frameRateStr = _GetResourceString(L"Overlay_Profiler_FrameRate");
-	ImGui::TextUnformatted(fmt::format("{}: {} FPS", frameRateStr, fps).c_str());
+	ImGui::TextUnformatted("");
 	ImGui::PopTextWrapPos();
 
 	const std::vector<const EffectDesc*>& effectDescs = renderer.ActiveEffectDescs();

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Logger.h"
 #include "StrHelper.h"
-#include <spdlog/sinks/rotating_file_sink.h>
+//#include <spdlog/sinks/rotating_file_sink.h>
 
 bool Logger::Initialize(int logLevel, std::wstring logFileName, int logArchiveAboveSize, int logMaxArchiveFiles) noexcept {
 	try {

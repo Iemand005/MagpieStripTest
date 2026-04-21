@@ -41,7 +41,6 @@ bool DwmSharedSurfaceFrameSource::_Initialize() noexcept {
 		return false;
 	}
 
-	Logger::Get().Info(fmt::format("源窗口 DPI 缩放为 {}", 1 / a));
 
 	const RECT& srcRect = srcTracker.SrcRect();
 	frameRect = RECT{

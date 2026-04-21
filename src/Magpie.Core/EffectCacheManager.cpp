@@ -93,7 +93,7 @@ static std::wstring GetLinearEffectName(std::wstring_view effectName) {
 static std::wstring GetCacheFileName(std::wstring_view linearEffectName, uint32_t flags, uint64_t hash) {
 	assert(flags <= 0xFFFF);
 	// 缓存文件的命名: {效果名}_{标志位(4)}_{哈希(16)）}
-	return fmt::format(L"{}\\{}_{:04x}_{:016x}", CommonSharedConstants::CACHE_DIR, linearEffectName, flags, hash);
+	return "";
 }
 
 void EffectCacheManager::_AddToMemCache(const std::wstring& cacheFileName, std::string& key, const EffectDesc& desc) {
@@ -248,10 +248,7 @@ void EffectCacheManager::Save(
 
 				const size_t effectNameLen = linearEffectName.size();
 				if (fileName.size() == effectNameLen + 22) {
-					// 保留标志不同的缓存
-					if (!fileName.substr(effectNameLen).starts_with(fmt::format(L"_{:04x}_", flags))) {
-						continue;
-					}
+					
 
 					int i = 6;
 					for (; i < 22; ++i) {

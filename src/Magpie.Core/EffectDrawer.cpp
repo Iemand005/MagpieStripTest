@@ -54,7 +54,6 @@ bool EffectDrawer::Initialize(
 		);
 
 		if (!_samplers[i]) {
-			Logger::Get().Error(fmt::format("创建采样器 {} 失败", samDesc.name));
 			return false;
 		}
 	}
@@ -91,7 +90,6 @@ bool EffectDrawer::Initialize(
 			_textures[i] = TextureHelper::LoadTexture(
 				StrHelper::UTF8ToUTF16(texPath).c_str(), deviceResources.GetD3DDevice());
 			if (!_textures[i]) {
-				Logger::Get().Error(fmt::format("加载纹理 {} 失败", texDesc.source));
 				return false;
 			}
 
@@ -112,7 +110,6 @@ bool EffectDrawer::Initialize(
 				_exprParser.SetExpr(texDesc.sizeExpr.second);
 				texSize.cy = std::lround(_exprParser.Eval());
 			} catch (const mu::ParserError& e) {
-				Logger::Get().Error(fmt::format("计算中间纹理尺寸 {} 失败: {}", e.GetExpr(), e.GetMsg()));
 				return false;
 			}
 
@@ -249,7 +246,6 @@ bool EffectDrawer::ResizeTextures(
 			_exprParser.SetExpr(sizeExpr.second);
 			texSize.cy = std::lround(_exprParser.Eval());
 		} catch (const mu::ParserError& e) {
-			Logger::Get().Error(fmt::format("计算中间纹理尺寸 {} 失败: {}", e.GetExpr(), e.GetMsg()));
 			return false;
 		}
 
@@ -363,7 +359,6 @@ SIZE EffectDrawer::_CalcOutputSize(
 			_exprParser.SetExpr(outputSizeExpr.second);
 			outputSize.cy = std::lround(_exprParser.Eval());
 		} catch (const mu::ParserError& e) {
-			Logger::Get().Error(fmt::format("计算输出尺寸 {} 失败: {}", e.GetExpr(), e.GetMsg()));
 			return {};
 		}
 	}
@@ -479,7 +474,6 @@ bool EffectDrawer::_UpdateConstants(
 					value = it->second;
 
 					if (value < constant.minValue || value > constant.maxValue) {
-						Logger::Get().Error(fmt::format("参数 {} 的值非法", paramDesc.name));
 						return false;
 					}
 				}

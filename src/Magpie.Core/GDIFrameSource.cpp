@@ -17,7 +17,6 @@ bool GDIFrameSource::_Initialize() noexcept {
 		return false;
 	}
 
-	Logger::Get().Info(fmt::format("源窗口 DPI 缩放为 {}", 1 / a));
 
 	_frameRect = {
 		std::lround(srcTracker.SrcRect().left * a + bx),

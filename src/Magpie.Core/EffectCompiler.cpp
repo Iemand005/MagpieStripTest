@@ -262,7 +262,7 @@ static uint32_t CompilePasses(
 	uint32_t flags,
 	const SmallVector<std::string_view>& commonBlocks,
 	const SmallVector<std::string_view>& passBlocks,
-	const // phmap::flat_hash_map<std::string, float>* inlineParams
+	const void* inlineParams
 ) noexcept {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
