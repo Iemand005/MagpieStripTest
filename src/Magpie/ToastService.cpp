@@ -42,15 +42,9 @@ void ToastService::Uninitialize() noexcept {
 }
 
 void ToastService::ShowMessageOnWindow(std::wstring_view title, std::wstring_view message, HWND hwndTarget) const noexcept {
-	_Dispatcher().TryEnqueue([this, title(std::wstring(title)), message(std::wstring(message)), hwndTarget]() {
-		_toastPage->ShowMessageOnWindow(std::move(title), std::move(message), hwndTarget, true);
-	});
 }
 
 void ToastService::ShowMessageInApp(std::wstring_view title, std::wstring_view message) const noexcept {
-	_Dispatcher().TryEnqueue([this, title(std::wstring(title)), message(std::wstring(message))]() {
-		_toastPage->ShowMessageOnWindow(std::move(title), std::move(message), App::Get().MainWindow().Handle(), false);
-	});
 }
 
 void ToastService::_ToastThreadProc() noexcept {
@@ -98,8 +92,6 @@ void ToastService::_ToastThreadProc() noexcept {
 	xamlSourceNative2->get_WindowHandle(&hwndXamlIsland);
 	SetWindowPos(hwndXamlIsland, NULL, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_SHOWWINDOW);
 
-	_toastPage = make_self<winrt::Magpie::implementation::ToastPage>((uint64_t)_hwndToast);
-	xamlSource.Content(*_toastPage);
 
 	_dispatcher = winrt::DispatcherQueue::GetForCurrentThread();
 	// 如果主线程正在等待则唤醒主线程
@@ -120,8 +112,6 @@ void ToastService::_ToastThreadProc() noexcept {
 
 	DestroyWindow(_hwndToast);
 
-	// 防止退出时崩溃
-	_toastPage->Close();
 
 	// 必须手动重置 Content，否则会内存泄露
 	xamlSource.Content(nullptr);
@@ -141,12 +131,10 @@ void ToastService::_ToastThreadProc() noexcept {
 	}
 
 	if (Win32Helper::GetOSVersion().IsWin11()) {
-		_toastPage = nullptr;
 	} else {
 		// !!! HACK !!!
 		// Win10 中 ToastPage 会泄露，很可能是 XAML Islands 的 bug，但主线程的 RootPage 却不会。
 		// Win11 没有这个问题。下面的代码确保 ToastPage 能析构！
-		auto raw = _toastPage.detach();
 		while (raw->Release() != 0) {}
 	}
 }
@@ -155,10 +143,6 @@ LRESULT ToastService::_ToastWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg) {
 	case WM_MOVE:
 	{
-		if (Get()._toastPage) {
-			// 使弹窗随窗口移动
-			XamlHelper::RepositionXamlPopups(Get()._toastPage->XamlRoot(), false);
-		}
 
 		return 0;
 	}
