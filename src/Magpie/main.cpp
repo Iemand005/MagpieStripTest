@@ -1,105 +1,54 @@
-// Copyright (c) Xu
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
 #include "pch.h"
 #include "App.h"
 #include "Win32Helper.h"
-#include "TouchHelper.h"
 #include "CommonSharedConstants.h"
 #include "Logger.h"
 
 using namespace Magpie;
 using namespace winrt::Magpie::implementation;
 
-// 将当前目录设为程序所在目录
+// Set working directory to the program directory
 static void SetWorkingDir() noexcept {
-	FAIL_FAST_IF_WIN32_BOOL_FALSE(SetCurrentDirectory(
-		Win32Helper::GetExePath().parent_path().c_str()));
+FAIL_FAST_IF_WIN32_BOOL_FALSE(SetCurrentDirectory(
+Win32Helper::GetExePath().parent_path().c_str()));
 }
 
 static void InitializeLogger(const wchar_t* logFilePath) noexcept {
-	// 最多两个日志文件，每个最多 500KB
-	Logger::Get().Initialize(
-		spdlog::level::info,
-		logFilePath,
-		CommonSharedConstants::LOG_MAX_SIZE,
-		1
-	);
+// Max 2 log files, each max 500KB
+Logger::Get().Initialize(
+spdlog::level::info,
+logFilePath,
+CommonSharedConstants::LOG_MAX_SIZE,
+1
+);
 }
 
 int APIENTRY wWinMain(
-	_In_ HINSTANCE /*hInstance*/,
-	_In_opt_ HINSTANCE /*hPrevInstance*/,
-	_In_ wchar_t* lpCmdLine,
-	_In_ int /*nCmdShow*/
+_In_ HINSTANCE /*hInstance*/,
+_In_opt_ HINSTANCE /*hPrevInstance*/,
+_In_ wchar_t* /*lpCmdLine*/,
+_In_ int /*nCmdShow*/
 ) {
 #ifdef _DEBUG
-	SetThreadDescription(GetCurrentThread(), L"Magpie-主线程");
+SetThreadDescription(GetCurrentThread(), L"Magpie-MainThread");
 #endif
-	
-	// 堆损坏时终止进程
-	HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, nullptr, 0);
 
-	SetWorkingDir();
+// Terminate process on heap corruption
+HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, nullptr, 0);
 
-	enum {
-		Normal,
-		RegisterTouchHelper,
-		UnRegisterTouchHelper
-	} mode = [&]() {
-		if (lpCmdLine == L"-r"sv) {
-			return RegisterTouchHelper;
-		} else if (lpCmdLine == L"-ur"sv) {
-			return UnRegisterTouchHelper;
-		} else {
-			return Normal;
-		}
-	}();
+SetWorkingDir();
+InitializeLogger(CommonSharedConstants::LOG_PATH);
 
-	InitializeLogger(mode == Normal ?
-		CommonSharedConstants::LOG_PATH :
-		CommonSharedConstants::REGISTER_TOUCH_HELPER_LOG_PATH);
+Logger::Get().Info("Application starting");
 
-	Logger::Get().Info(fmt::format("程序启动\n\t版本: {}\n\tOS 版本: {}\n\t管理员: {}",
-#ifdef MP_VERSION_STRING
-		STRINGIFY(MP_VERSION_STRING),
-#elif defined(MP_COMMIT_ID)
-		"dev (" STRINGIFY(MP_COMMIT_ID) ")",
-#else
-		"dev",
-#endif
-		Win32Helper::GetOSVersion().ToString<char>(),
-		Win32Helper::IsProcessElevated() ? "是" : "否"
-	));
+// Do not call uninit_apartment on exit
+// See https://kennykerr.ca/2018/03/24/cppwinrt-hosting-the-windows-runtime/
+winrt::init_apartment(winrt::apartment_type::single_threaded);
 
-	if (mode == RegisterTouchHelper) {
-		// 使 TouchHelper 获得 UIAccess 权限
-		return Magpie::TouchHelper::Register() ? 0 : 1;
-	} else if (mode == UnRegisterTouchHelper) {
-		return Magpie::TouchHelper::Unregister() ? 0 : 1;
-	}
+auto& app = App::Get();
+if (!app.Initialize(nullptr)) {
+return 0;
+}
 
-	// 程序结束时也不应调用 uninit_apartment
-	// 见 https://kennykerr.ca/2018/03/24/cppwinrt-hosting-the-windows-runtime/
-	winrt::init_apartment(winrt::apartment_type::single_threaded);
-
-	auto& app = App::Get();
-	if (!app.Initialize(lpCmdLine)) {
-		return 0;
-	}
-
-	return app.Run();
+return app.Run();
 }
