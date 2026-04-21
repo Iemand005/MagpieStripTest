@@ -296,9 +296,6 @@
     <Page Include="HomePage.xaml">
       <Filter>Pages</Filter>
     </Page>
-    <Page Include="SettingsPage.xaml">
-      <Filter>Pages</Filter>
-    </Page>
     <Page Include="PageFrame.xaml">
       <Filter>Controls</Filter>
     </Page>

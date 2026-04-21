@@ -138,7 +138,6 @@ void RootPage::NavigationView_SelectionChanged(
 	auto contentFrame = ContentFrame();
 
 	if (args.IsSettingsSelected()) {
-		contentFrame.Navigate(xaml_typename<SettingsPage>());
 	} else {
 		IInspectable selectedItem = args.SelectedItem();
 		if (!selectedItem) {
